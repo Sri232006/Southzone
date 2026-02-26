@@ -1,0 +1,58 @@
+.checkout-page {
+  color: white;
+  padding: 40px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.checkout-container {
+  display: flex;
+  gap: 50px;
+  margin-top: 30px;
+}
+
+.checkout-form {
+  flex: 2;
+}
+
+.checkout-form input,
+.checkout-form textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0 20px;
+  background: black;
+  border: 1px solid gray;
+  color: white;
+}
+
+.checkout-form textarea {
+  height: 80px;
+}
+
+.row {
+  display: flex;
+  gap: 20px;
+}
+
+.buy-btn {
+  width: 100%;
+  padding: 14px;
+  background: #333;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.order-summary {
+  flex: 1;
+  background: white;
+  color: black;
+  padding: 20px;
+}
+
+.summary-item,
+.summary-total {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+}

@@ -1,0 +1,238 @@
+.products-container {
+  padding: 40px;
+  background: #f4f6f9;
+  min-height: 100vh;
+  width: 100%;
+  box-sizing: border-box;
+  color: #111;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* HEADER */
+.products-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 35px;
+}
+
+.products-header h2 {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+/* ADD BUTTON */
+.add-btn {
+  background: #000;
+  color: #fff;
+  padding: 12px 22px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.add-btn:hover {
+  background: #222;
+  transform: translateY(-1px);
+}
+
+/* BACK LINK */
+.back-link {
+  margin-bottom: 25px;
+  font-weight: 500;
+  cursor: pointer;
+  color: #555;
+}
+
+.back-link:hover {
+  color: #000;
+}
+
+/* CARD — MAIN FORM */
+.add-product-card {
+  background: #fff;
+  padding: 38px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  max-width: 900px;
+  border: 1px solid #eee;
+}
+
+/* FORM TITLE */
+.add-product-card h2 {
+  margin-bottom: 28px;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+/* LABELS */
+.add-product-card label {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #333;
+  display: block;
+}
+
+/* INPUTS */
+.add-product-card input,
+.add-product-card select,
+.add-product-card textarea {
+  width: 100%;
+  padding: 13px;
+  margin-bottom: 18px;
+  border-radius: 10px;
+  border: 1px solid #dcdcdc;
+  font-size: 14px;
+  background: #fafafa;
+  transition: all 0.2s ease;
+}
+
+.add-product-card input:focus,
+.add-product-card select:focus,
+.add-product-card textarea:focus {
+  outline: none;
+  border-color: #000;
+  background: #fff;
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.05);
+}
+
+/* PRICE ROW */
+.row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+/* FILE INPUT */
+input[type="file"] {
+  background: #fff;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+/* SIZES CHECKBOX */
+.sizes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.sizes label {
+  background: #f1f1f1;
+  padding: 7px 14px;
+  border-radius: 7px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.sizes label:hover {
+  background: #e6e6e6;
+}
+
+.sizes input {
+  margin-right: 6px;
+}
+
+/* CREATE BUTTON */
+.create-btn {
+  width: 100%;
+  background: #000;
+  color: #fff;
+  padding: 15px;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: all 0.25s ease;
+}
+
+.create-btn:hover {
+  background: #222;
+  transform: translateY(-1px);
+}
+
+/* TABLE CARD */
+.table-card {
+  background: #fff;
+  padding: 26px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  border: 1px solid #eee;
+}
+
+/* TABLE */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* HEADER */
+thead {
+  background: #f7f7f7;
+}
+
+th {
+  padding: 16px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ROWS */
+td {
+  padding: 16px;
+  border-top: 1px solid #eee;
+  font-size: 14px;
+}
+
+/* HOVER EFFECT */
+tbody tr:hover {
+  background: #fafafa;
+}
+
+/* PRODUCT IMAGE */
+.table-img {
+  width: 55px;
+  height: 55px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid #eee;
+}
+
+/* ACTION BUTTONS */
+.edit-btn {
+  background: #e8f1ff;
+  border: none;
+  padding: 8px 12px;
+  margin-right: 6px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.edit-btn:hover {
+  background: #d6e6ff;
+}
+
+.delete-btn {
+  background: #ffecec;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.delete-btn:hover {
+  background: #ffdada;
+}

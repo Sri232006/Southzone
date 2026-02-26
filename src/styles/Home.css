@@ -1,0 +1,373 @@
+/* ================= HERO ================= */
+
+.hero {
+  position: relative;
+  height: 85vh;
+  width: 100%;
+  overflow: hidden;
+  background: black;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Blurred side background */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  filter: blur(25px) brightness(0.45);
+  transform: scale(1.2);
+  z-index: 1;
+}
+
+/* Center content */
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: white;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Main portrait image */
+.hero-main-image {
+  max-height: 60vh;
+  max-width: 360px;
+  object-fit: contain;
+  transform: translateY(30px);
+}
+
+/* Title */
+.hero-content h1 {
+  font-size: 52px;
+  letter-spacing: 6px;
+  margin-bottom: 20px;
+  font-family: "Times New Roman", serif;
+}
+
+/* Button */
+.hero-btn {
+  padding: 14px 40px;
+  background: white;
+  color: black;
+  border: none;
+  font-weight: 600;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.hero-btn:hover {
+  background: #e6e6e6;
+}
+
+/* Dots right below the Shop Now button */
+.hero-dots {
+  display: flex;
+  gap: 8px;              /* space between dots */
+  margin: 12px 0 0;      /* closer to the button */
+  justify-content: center;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+.dot.active {
+  background: white;
+  transform: scale(1.2);
+}
+
+/* Mobile adjustment */
+@media (max-width: 768px) {
+  .hero-dots {
+    margin-top: 8px;      /* even closer on mobile */
+  }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+  }
+
+  .dot.active {
+    transform: scale(1.1);
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .hero {
+    height: 75vh;
+  }
+
+  .hero-main-image {
+    max-height: 50vh;
+    max-width: 280px;
+  }
+
+  .hero-content h1 {
+    font-size: 30px;
+    letter-spacing: 3px;
+  }
+}
+/* ===== OFFERS SECTION ===== */
+.offers-section {
+  padding: 60px 8%;
+  background: black;
+}
+
+.section-title {
+  font-family: "Bebas Neue", sans-serif;
+  font-weight: 700;
+  color: white;
+  letter-spacing: 3px;
+}
+
+/* Cards layout */
+.offers-container {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Card */
+.offer-card {
+  position: relative;
+  width: 420px;
+  height: 230px;
+  border-radius: 14px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.4s ease;
+}
+
+.offer-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.offer-card:hover {
+  transform: scale(1.03);
+}
+
+/* Overlay text */
+.offer-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.75),
+    rgba(0, 0, 0, 0.2)
+  );
+  padding: 22px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.offer-discount {
+  color: #ff4d4d;
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.offer-overlay h3 {
+  font-family: "Bebas Neue", sans-serif;
+  font-weight: 700;
+  font-size: 26px;
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+}
+
+.offer-overlay p {
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+
+@media (max-width: 768px) {
+  .offer-card {
+    width: 100%;
+    height: 210px;
+  }
+}
+
+/* ===== OUR COLLECTION ===== */
+.collection-section {
+  padding: 70px 8%;
+  background: black;
+}
+
+.collection-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+}
+
+/* Card */
+.collection-card {
+  position: relative;
+  height: 420px;
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.collection-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.collection-card:hover img {
+  transform: scale(1.08);
+}
+
+/* Center text overlay */
+.collection-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.collection-overlay h3 {
+  font-family: "Bebas Neue", sans-serif;
+  font-weight: 700;
+  color: black;
+  font-size: 34px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.78);
+  padding: 10px 22px;
+  border-radius: 6px;
+}
+
+/* Mobile */
+@media (max-width: 1024px) {
+  .collection-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .collection-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .collection-card {
+    height: 360px;
+  }
+
+  .collection-overlay h3 {
+    font-size: 28px;
+    letter-spacing: 4px;
+  }
+}
+
+/* ===== TRENDING ===== */
+.trending-section {
+  background: black;
+  padding: 70px 8%;
+  color: white;
+  font-family: "Bebas Neue", sans-serif;
+}
+
+.trending-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.trending-header h2 {
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.view-all {
+  font-size: 14px;
+  opacity: 0.7;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.trending-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 35px;
+}
+
+.trending-card {
+  text-align: center;
+}
+
+.trending-card img {
+  width: 100%;
+  height: 360px;
+  object-fit: cover;
+  border-radius: 14px;
+  transition: transform 0.4s ease;
+}
+
+.trending-card:hover img {
+  transform: scale(1.05);
+}
+
+.trending-card h3 {
+  margin-top: 18px;
+  font-size: 18px;
+  letter-spacing: 1px;
+  text-transform: lowercase;
+}
+
+.price {
+  margin-top: 6px;
+}
+
+.price .new {
+  color: #ff3c3c;
+  margin-right: 10px;
+  font-size: 16px;
+}
+
+.price .old {
+  text-decoration: line-through;
+  opacity: 0.6;
+  font-size: 14px;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .trending-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .trending-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .trending-card img {
+    height: 320px;
+  }
+}
