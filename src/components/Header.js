@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "../styles/Auth.css";
-import logo from "../assets/southzone_logo_final.jpg";
 
 import {
   FaHome,
@@ -23,6 +22,8 @@ function Header() {
   const [cartCount, setCartCount] = useState(0);
   const [showSearch, setShowSearch] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+
+  const [showUserMenu, setShowUserMenu] = useState(false);
 
   const checkLoginState = () => {
     const token = localStorage.getItem("authToken");
@@ -52,17 +53,14 @@ function Header() {
   }, []);
 
   const handleUserClick = () => {
-    if (!isLoggedIn) {
-      navigate("/login");
-    } else {
-      handleLogout();
-    }
+    setShowUserMenu(!showUserMenu);
   };
 
   const handleLogout = () => {
     localStorage.clear();
     setIsLoggedIn(false);
     setCartCount(0);
+    setShowUserMenu(false);
     navigate("/");
   };
 
@@ -88,7 +86,7 @@ function Header() {
 
         <div className="header-center">
           <img
-            src={logo}
+            src="/images/southzone_logo_final.jpg"
             alt="South Zone"
             className="logo"
             style={{ cursor: "pointer" }}
@@ -97,22 +95,72 @@ function Header() {
         </div>
 
         <div className="header-right">
-          <FaUser
-            style={{
-              cursor: "pointer",
-              color: isLoggedIn ? "red" : "white",
-            }}
-            onClick={handleUserClick}
-            title={isLoggedIn ? "Logout" : "Login"}
-          />
 
-          {/*  Search Icon */}
+          {/* USER ICON */}
+          <div style={{ position: "relative" }}>
+            <FaUser
+              style={{
+                cursor: "pointer",
+                color: isLoggedIn ? "red" : "white",
+              }}
+              onClick={handleUserClick}
+            />
+
+            {showUserMenu && (
+              <div
+                style={{
+                  position: "absolute",
+                  right: 0,
+                  top: "30px",
+                  background: "#111",
+                  border: "1px solid #333",
+                  borderRadius: "6px",
+                  padding: "10px",
+                  width: "120px",
+                  zIndex: 1000
+                }}
+              >
+                {!isLoggedIn && (
+                  <div
+                    style={{ padding: "8px", cursor: "pointer" }}
+                    onClick={() => {
+                      setShowUserMenu(false);
+                      navigate("/login");
+                    }}
+                  >
+                    Login
+                  </div>
+                )}
+
+                {isLoggedIn && (
+                  <>
+                    <div
+                      style={{ padding: "8px", cursor: "pointer" }}
+                      onClick={() => {
+                        setShowUserMenu(false);
+                        navigate("/profile");
+                      }}
+                    >
+                      Profile
+                    </div>
+
+                    <div
+                      style={{ padding: "8px", cursor: "pointer" }}
+                      onClick={handleLogout}
+                    >
+                      Logout
+                    </div>
+                  </>
+                )}
+              </div>
+            )}
+          </div>
+
           <FaSearch
             style={{ cursor: "pointer" }}
             onClick={() => setShowSearch(true)}
           />
 
-          {/* 🛒 Cart */}
           <div
             style={{ position: "relative", cursor: "pointer" }}
             onClick={() => navigate("/cart")}
@@ -139,7 +187,6 @@ function Header() {
         </div>
       </header>
 
-      {/* 🔎 Full Screen Search Overlay */}
       {showSearch && (
         <div className="search-overlay">
           <div className="search-box">

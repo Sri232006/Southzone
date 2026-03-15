@@ -1,39 +1,33 @@
 import React from "react";
 import "../styles/Home.css";
 
-
-import hoody from "../assets/hoody.jpg";
-import whiteHoody from "../assets/white-hoody.jpg";
-import redHoody from "../assets/red-hoody.jpg";
-import pongal from "../assets/pongal-offer.jpg";
-
 /* Products data */
 const products = [
   {
     id: 1,
     name: "Green Hoody",
-    image: hoody,
+    image: "/images/hoody.jpg",
     price: 675,
     oldPrice: 1499,
   },
   {
     id: 2,
     name: "Merun Shirt",
-    image: whiteHoody,
+    image: "/images/white-hoody.jpg",
     price: 1319,
     oldPrice: 1999,
   },
   {
     id: 3,
     name: "Bottle Green Shirt",
-    image: redHoody,
+    image: "/images/red-hoody.jpg",
     price: 1125,
     oldPrice: 1500,
   },
   {
     id: 4,
     name: "Dhoti",
-    image: pongal,
+    image: "/images/pongal-offer.jpg",
     price: 679,
     oldPrice: 999,
   },

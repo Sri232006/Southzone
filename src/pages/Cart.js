@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";   // ✅ ADD THIS
+import { useNavigate } from "react-router-dom";   
 import "../styles/Cart.css";
 
 function Cart() {
-  const navigate = useNavigate();   // ✅ ADD THIS
+  const navigate = useNavigate();   
   const [cart, setCart] = useState([]);
 
   useEffect(() => {
@@ -104,7 +104,7 @@ function Cart() {
 
         <button
           className="checkout-btn"
-          onClick={() => navigate("/checkout")}   // ✅ CHANGE HERE
+          onClick={() => navigate("/checkout")}   
         >
           PROCEED TO CHECKOUT →
         </button>

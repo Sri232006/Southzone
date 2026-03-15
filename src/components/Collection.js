@@ -2,32 +2,27 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Home.css";
 
-import hoodie from "../assets/hoodie.jpg";
-import shirt from "../assets/shirt.jpg";
-import dhoti from "../assets/dhoti.jpg";
-import pants from "../assets/pants.jpg";
-
 function Collection() {
   const navigate = useNavigate();
 
   const collections = [
     {
-      img: hoodie,
+      img: "/images/hoodie.jpg",
       title: "HOODY",
       category: "hoodies",
     },
     {
-      img: shirt,
+      img: "/images/shirt.jpg",
       title: "SHIRT",
       category: "shirts",
     },
     {
-      img: dhoti,
+      img: "/images/dhoti.jpg",
       title: "DHOTIS",
       category: "dhotis",
     },
     {
-      img: pants,
+      img: "/images/pants.jpg",
       title: "PANTS",
       category: "pants",
     },

@@ -103,18 +103,24 @@
   color: black;
 }
 
-/* BUY NOW (White Fill Style) */
+/* BUY NOW BUTTON */
 .buy-now {
   width: 100%;
   padding: 18px;
-  background: #e5e5e5;
-  border: none;
+  margin-top: 10px;
+
+  background: white;
+  color: black;
+
+  border: 2px solid white;
+
   font-weight: 600;
   letter-spacing: 1px;
   cursor: pointer;
+
   transition: 0.3s;
 }
 
 .buy-now:hover {
-    background: white;
+  background: #e5e5e5;
 }

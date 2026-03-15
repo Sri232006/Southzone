@@ -1,15 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Auth.css";
-import googleLogo from "../assets/google.png";
-import products from "../data/Products";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  
   const executePendingAction = () => {
     const pendingAction = JSON.parse(localStorage.getItem("pendingAction"));
     if (!pendingAction) return;
@@ -27,20 +24,14 @@ function Login() {
     if (existingIndex >= 0) {
       cart[existingIndex].quantity += pendingAction.quantity;
     } else {
-      const product = products.find(
-        (p) => p.id === pendingAction.productId
-      );
-
-      if (product) {
-        cart.push({
-          productId: product.id,
-          name: product.name,
-          price: product.price,
-          image: product.image,
-          size: pendingAction.size,
-          quantity: pendingAction.quantity,
-        });
-      }
+      cart.push({
+        productId: pendingAction.productId,
+        name: pendingAction.name,
+        price: pendingAction.price,
+        image: pendingAction.image,
+        size: pendingAction.size,
+        quantity: pendingAction.quantity,
+      });
     }
 
     localStorage.setItem("cart", JSON.stringify(cart));
@@ -58,7 +49,6 @@ function Login() {
       return;
     }
 
-    
     if (email === "admin@gmail.com" && password === "1234") {
       localStorage.setItem("authToken", "admin-auth-token");
       localStorage.setItem(
@@ -71,7 +61,6 @@ function Login() {
       return;
     }
 
-    
     localStorage.setItem("authToken", "user-auth-token");
     localStorage.setItem(
       "user",
@@ -121,11 +110,10 @@ function Login() {
       <p className="or-text">OR</p>
 
       <button className="google-btn" onClick={handleGoogleLogin}>
-        <img src={googleLogo} alt="Google" />
+        <img src="/images/google.png" alt="Google" />
         Sign in with Google
       </button>
 
-      {/* LINKS */}
       <div className="auth-links">
         <p>
           Don't have an account?{" "}

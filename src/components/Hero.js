@@ -1,21 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "../styles/Home.css";
 
-import hero1 from "../assets/hero1.jpg";
-import hero2 from "../assets/hero2.jpg";
-import hero3 from "../assets/hero3.jpg";
-import hero4 from "../assets/hero4.jpg";
-import hero5 from "../assets/hero5.jpg";
-import hero6 from "../assets/hero6.jpg";
-
 function Hero() {
   const slides = [
-    { image: hero1, title: "REDEFINE FASHION" },
-    { image: hero2, title: "MODERN STREETWEAR" },
-    { image: hero3, title: "TRENDING NOW" },
-    { image: hero4, title: "URBAN CLASSICS" },
-    { image: hero5, title: "SOUTHZONE STYLE" },
-    { image: hero6, title: "ELEVATE YOUR LOOK" },
+    { image: "/images/hero1.jpg", title: "REDEFINE FASHION" },
+    { image: "/images/hero2.jpg", title: "MODERN STREETWEAR" },
+    { image: "/images/hero3.jpg", title: "TRENDING NOW" },
+    { image: "/images/hero4.jpg", title: "URBAN CLASSICS" },
+    { image: "/images/hero5.jpg", title: "SOUTHZONE STYLE" },
+    { image: "/images/hero6.jpg", title: "ELEVATE YOUR LOOK" },
   ];
 
   const [current, setCurrent] = useState(0);
@@ -35,13 +28,12 @@ function Hero() {
 
   return (
     <div className="hero">
-      
+
       <div
         className="hero-bg"
         style={{ backgroundImage: `url(${slides[current].image})` }}
       ></div>
 
-      
       <div className={`hero-content ${fade ? "fade-in" : "fade-out"}`}>
         <img
           src={slides[current].image}

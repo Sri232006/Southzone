@@ -21,7 +21,6 @@ function Products() {
     image: null,
   });
 
-  
   useEffect(() => {
     const price = Number(formData.originalPrice);
     const discount = Number(formData.discount);
@@ -62,19 +61,32 @@ function Products() {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    const newProduct = {
-      ...formData,
-      id: formData.id || Date.now(),
-      price: formData.finalPrice,
-    };
-
-    addProduct(newProduct);
-
-    setShowForm(false);
+  const newProduct = {
+    id: formData.id || Date.now(),
+    name: formData.name,
+    price: Number(formData.finalPrice),
+    category: formData.category,
+    image: formData.image,
+    stock: Number(formData.stock),
   };
 
+  fetch("http://localhost:5000/products", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(newProduct),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      addProduct(data);
+      setShowForm(false);
+      alert("Product added successfully");
+    })
+    .catch((err) => console.log(err));
+};
   return (
     <div className="admin-container">
       <Sidebar />
@@ -82,7 +94,6 @@ function Products() {
       <div className="products-container">
         {!showForm ? (
           <>
-            {/* TABLE VIEW */}
             <div className="products-header">
               <h2>All Products</h2>
               <button
@@ -132,7 +143,6 @@ function Products() {
           </>
         ) : (
           <>
-            {/* ADD PRODUCT FORM */}
             <div className="back-link" onClick={() => setShowForm(false)}>
               ← Back to Products
             </div>

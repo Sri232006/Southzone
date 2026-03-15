@@ -1,0 +1,25 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Cotton Dhoti",
+      "price": 1399,
+      "category": "dhotis",
+      "image": "/images/dhoti.jpg"
+    },
+    {
+      "id": 2,
+      "name": "Black Hoodie",
+      "price": 1899,
+      "category": "hoodies",
+      "image": "/images/hoodie.jpg"
+    },
+    {
+      "id": 3,
+      "name": "White Hoodie",
+      "price": 1999,
+      "category": "hoodies",
+      "image": "/images/white-hoodie.jpg"
+    }
+  ]
+}

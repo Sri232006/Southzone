@@ -1,9 +1,6 @@
 import React from "react";
 import "../styles/Home.css";
 
-import pongal from "../assets/pongal-offer.jpg";
-import summer from "../assets/summer-offer.jpg";
-
 function Offers() {
   return (
     <section className="offers-section">
@@ -12,7 +9,7 @@ function Offers() {
       <div className="offers-container">
         {/* Pongal Offer */}
         <div className="offer-card">
-          <img src={pongal} alt="Pongal Offer" />
+          <img src="/images/pongal-offer.jpg" alt="Pongal Offer" />
           <div className="offer-overlay">
             <span className="offer-discount">34% OFF</span>
             <h3>Pongal Sale!</h3>
@@ -22,7 +19,7 @@ function Offers() {
 
         {/* Summer Offer */}
         <div className="offer-card">
-          <img src={summer} alt="Summer Offer" />
+          <img src="/images/summer-offer.jpg" alt="Summer Offer" />
           <div className="offer-overlay">
             <span className="offer-discount">31% OFF</span>
             <h3>Summer Sale</h3>

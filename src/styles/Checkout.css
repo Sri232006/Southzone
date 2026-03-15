@@ -18,10 +18,10 @@
 .checkout-form input,
 .checkout-form textarea {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   margin: 8px 0 20px;
   background: black;
-  border: 1px solid gray;
+  border: 1px solid #444;
   color: white;
 }
 
@@ -34,14 +34,81 @@
   gap: 20px;
 }
 
+/* PAYMENT TITLE */
+
+.payment-title {
+  margin-top: 30px;
+  margin-bottom: 15px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* PAYMENT METHODS */
+
+.payment-method {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+/* PAYMENT CARD */
+
+.payment-method label {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 14px 16px;
+
+  border: 1px solid #444;
+  background: #111;
+
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.payment-method label:hover {
+  border-color: #888;
+  background: #151515;
+}
+
+/* RADIO */
+
+.payment-method input[type="radio"] {
+  margin: 0;
+  transform: scale(1.2);
+  accent-color: white;
+}
+
+/* PAYMENT TEXT */
+
+.payment-method span {
+  font-size: 14px;
+  letter-spacing: .3px;
+}
+
+/* BUTTON */
+
 .buy-btn {
   width: 100%;
-  padding: 14px;
+  padding: 16px;
   background: #333;
   color: white;
   border: none;
   cursor: pointer;
+  letter-spacing: 1px;
+  font-weight: 600;
+  transition: 0.3s;
 }
+
+.buy-btn:hover {
+  background: #555;
+}
+
+/* ORDER SUMMARY */
 
 .order-summary {
   flex: 1;
@@ -55,4 +122,12 @@
   display: flex;
   justify-content: space-between;
   margin: 10px 0;
+}
+
+/* MOBILE */
+
+@media (max-width: 900px) {
+  .checkout-container {
+    flex-direction: column;
+  }
 }

@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import "../styles/Checkout.css";
 
 function Checkout() {
+
   const [cart, setCart] = useState([]);
+  const [paymentMethod, setPaymentMethod] = useState("razorpay");
 
   const [form, setForm] = useState({
     name: "",
@@ -26,24 +28,34 @@ function Checkout() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleBuyNow = () => {
+  const handlePlaceOrder = () => {
+
     if (!form.name || !form.phone || !form.address) {
       alert("Please fill all required fields");
       return;
     }
 
-    alert("Order placed successfully!");
+    if (paymentMethod === "cod") {
+      alert("Order placed with Cash on Delivery");
+    } else {
+      alert("Redirecting to Razorpay payment...");
+    }
+
     localStorage.removeItem("cart");
     window.location.reload();
   };
 
   return (
     <div className="checkout-page">
+
       <h1>CHECKOUT</h1>
 
       <div className="checkout-container">
+
         {/* LEFT SIDE */}
+
         <div className="checkout-form">
+
           <h3>Shipping Details</h3>
 
           <label>Full Name</label>
@@ -68,6 +80,7 @@ function Checkout() {
           />
 
           <div className="row">
+
             <div>
               <label>City</label>
               <input
@@ -85,15 +98,47 @@ function Checkout() {
                 onChange={handleChange}
               />
             </div>
+
           </div>
 
-          <button className="buy-btn" onClick={handleBuyNow}>
-            BUY NOW
+          {/* PAYMENT METHOD */}
+
+          <h3 className="payment-title">Payment Method</h3>
+
+          <div className="payment-method">
+
+            <label>
+              <input
+                type="radio"
+                value="razorpay"
+                checked={paymentMethod === "razorpay"}
+                onChange={(e) => setPaymentMethod(e.target.value)}
+              />
+              Razorpay (UPI / Card / Netbanking)
+            </label>
+
+            <label>
+              <input
+                type="radio"
+                value="cod"
+                checked={paymentMethod === "cod"}
+                onChange={(e) => setPaymentMethod(e.target.value)}
+              />
+              Cash on Delivery
+            </label>
+
+          </div>
+
+          <button className="buy-btn" onClick={handlePlaceOrder}>
+            PLACE ORDER
           </button>
+
         </div>
 
         {/* RIGHT SIDE */}
+
         <div className="order-summary">
+
           <h3>Order Summary</h3>
 
           {cart.map((item, index) => (
@@ -111,8 +156,11 @@ function Checkout() {
             <span>Total To Pay</span>
             <span>₹{totalPrice}</span>
           </div>
+
         </div>
+
       </div>
+
     </div>
   );
 }

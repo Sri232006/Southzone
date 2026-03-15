@@ -1,13 +1,30 @@
-import React, { createContext, useState } from "react";
-import initialProducts from "../../data/Products"; 
+import React, { createContext, useState, useEffect } from "react";
 
 export const ProductContext = createContext();
 
 export const ProductProvider = ({ children }) => {
-  const [products, setProducts] = useState(initialProducts); 
+
+  const [products, setProducts] = useState([]);
+
+  // API fetch
+  useEffect(() => {
+
+    fetch("http://localhost:5000/products")
+      .then((res) => res.json())
+      .then((data) => setProducts(data))
+      .catch((err) => console.log(err));
+
+  }, []);
 
   const addProduct = (product) => {
-    setProducts((prev) => [...prev, { ...product, id: Date.now() }]); 
+
+    const newProduct = {
+      ...product,
+      id: Date.now()
+    };
+
+    setProducts((prev) => [...prev, newProduct]);
+
   };
 
   return (

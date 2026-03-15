@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Auth.css";
-import googleLogo from "../assets/google.png";
 
 function Signup({ switchToLogin }) {
   const navigate = useNavigate();
@@ -41,7 +40,7 @@ function Signup({ switchToLogin }) {
   };
 
   const handleForgotPassword = () => {
-    navigate("/forgot-password"); 
+    navigate("/forgot-password");
   };
 
   return (
@@ -84,16 +83,14 @@ function Signup({ switchToLogin }) {
       <p className="or-text">OR</p>
 
       <button className="google-btn" onClick={handleGoogleSignup}>
-        <img src={googleLogo} alt="Google" />
+        <img src="/images/google.png" alt="Google" />
         Sign up with Google
       </button>
 
-      {/*  Forgot Password */}
       <p className="link-text" onClick={handleForgotPassword}>
         Forgot Password?
       </p>
 
-      {/*  Switch to Login */}
       <p className="link-text" onClick={switchToLogin}>
         Already have an account? Login
       </p>
