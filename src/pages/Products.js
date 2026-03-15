@@ -14,7 +14,11 @@ function Products() {
 
   useEffect(() => {
 
-    fetch(`http://localhost:5000/products?category=${category}`)
+    const url = category
+      ? `http://localhost:5000/products?category=${category}`
+      : `http://localhost:5000/products`;
+
+    fetch(url)
       .then(res => res.json())
       .then(data => {
         setProducts(data);

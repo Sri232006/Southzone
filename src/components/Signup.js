@@ -10,18 +10,42 @@ function Signup({ switchToLogin }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSignup = () => {
+  const handleSignup = async () => {
     if (firstName && lastName && email && password) {
-      const authToken = "user-auth-token";
 
-      localStorage.setItem("authToken", authToken);
-      localStorage.setItem(
-        "user",
-        JSON.stringify({ email, role: "user" })
-      );
+      const newUser = {
+        firstName,
+        lastName,
+        email,
+        password,
+        role: "user"
+      };
 
-      alert("Account created successfully!");
-      navigate("/");
+      try {
+
+        await fetch("http://localhost:5000/users", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(newUser)
+        });
+
+        const authToken = "user-auth-token";
+
+        localStorage.setItem("authToken", authToken);
+        localStorage.setItem(
+          "user",
+          JSON.stringify({ email, role: "user" })
+        );
+
+        alert("Account created successfully!");
+        navigate("/");
+
+      } catch (error) {
+        console.error(error);
+      }
+
     } else {
       alert("Please fill all fields");
     }

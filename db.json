@@ -1,25 +1,175 @@
 {
+  "users": [
+    {
+      "id": "admin1",
+      "name": "Admin",
+      "email": "admin@gmail.com",
+      "password": "admin123",
+      "role": "admin"
+    },
+    {
+      "name": "Srika S",
+      "email": "srika@gmail.com",
+      "password": "Srika123",
+      "role": "user",
+      "phone": "9944236913",
+      "gender": "female",
+      "dob": "2006-02-22",
+      "bio": "",
+      "addresses": [
+        {
+          "name": "Vidhya",
+          "phone": "96291265789",
+          "city": "Ramanathapuram",
+          "state": "Tamil Nadu",
+          "pincode": "623454"
+        },
+        {
+          "name": "Srika S",
+          "phone": "9944236913",
+          "city": "Uchipuli",
+          "state": "Tamil Nadu",
+          "pincode": "623534"
+        }
+      ],
+      "id": "77b9"
+    }
+  ],
   "products": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Cotton Dhoti",
       "price": 1399,
       "category": "dhotis",
       "image": "/images/dhoti.jpg"
     },
     {
-      "id": 2,
-      "name": "Black Hoodie",
+      "id": "2",
+      "name": " Hoodie",
       "price": 1899,
       "category": "hoodies",
       "image": "/images/hoodie.jpg"
     },
     {
-      "id": 3,
+      "id": "3",
       "name": "White Hoodie",
       "price": 1999,
       "category": "hoodies",
       "image": "/images/white-hoodie.jpg"
     }
-  ]
+  ],
+  "orders": [
+    {
+      "id": "b1a8",
+      "userEmail": "srika@gmail.com",
+      "items": [
+        {
+          "id": "1",
+          "name": "Cotton Dhoti",
+          "price": 1399,
+          "category": "dhotis",
+          "image": "/images/dhoti.jpg",
+          "quantity": 1,
+          "size": "M"
+        },
+        {
+          "id": "2",
+          "name": "Black Hoodie",
+          "price": 1899,
+          "category": "hoodies",
+          "image": "/images/hoodie.jpg",
+          "quantity": 1,
+          "size": "M"
+        }
+      ],
+      "shipping": {
+        "name": "Srika S",
+        "phone": "9944236913",
+        "address": "Rmd",
+        "city": "Ramanathapuram",
+        "zip": "3568789"
+      },
+      "paymentMethod": "razorpay",
+      "total": 3298,
+      "status": "Paid",
+      "createdAt": "2026-03-15T05:50:55.769Z"
+    }
+  ],
+  "collections": [
+    {
+      "id": "1",
+      "title": "HOODY",
+      "category": "hoodies",
+      "image": "/images/hoodie.jpg"
+    },
+    {
+      "id": "2",
+      "title": "SHIRT",
+      "category": "shirts",
+      "image": "/images/shirt.jpg"
+    },
+    {
+      "id": "3",
+      "title": "DHOTIS",
+      "category": "dhotis",
+      "image": "/images/dhoti.jpg"
+    },
+    {
+      "id": "4",
+      "title": "PANTS",
+      "category": "pants",
+      "image": "/images/pants.jpg"
+    }
+  ],
+
+  "heroslides": [
+    {
+      "id": "1",
+      "image": "/images/hero1.jpg",
+      "title": "REDEFINE FASHION"
+    },
+    {
+      "id": "2",
+      "image": "/images/hero2.jpg",
+      "title": "MODERN STREETWEAR"
+    },
+    {
+      "id": "3",
+      "image": "/images/hero3.jpg",
+      "title": "TRENDING NOW"
+    },
+    {
+      "id": "4",
+      "image": "/images/hero4.jpg",
+      "title": "URBAN CLASSICS"
+    },
+    {
+      "id": "5",
+      "image": "/images/hero5.jpg",
+      "title": "SOUTHZONE STYLE"
+    },
+    {
+      "id": "6",
+      "image": "/images/hero6.jpg",
+      "title": "ELEVATE YOUR LOOK"
+    }
+  ],
+  "offers": [
+  {
+    "id": "1",
+    "title": "Pongal Sale!",
+    "desc": "7th Jan - 17th Jan",
+    "discount": 34,
+    "image": "/images/pongal-offer.jpg"
+  },
+  {
+    "id": "2",
+    "title": "Summer Sale",
+    "desc": "3rd Mar - 25th May",
+    "discount": 31,
+    "image": "/images/summer-offer.jpg"
+  }
+],
+
+  "$schema": "./node_modules/json-server/schema.json"
 }

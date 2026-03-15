@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Sidebar from "../components/Sidebar";
 import "../styles/AdminCollections.css";
 
 function Collections() {
+
   const [collections, setCollections] = useState([]);
   const [showForm, setShowForm] = useState(false);
 
@@ -10,56 +11,106 @@ function Collections() {
     title: "",
     textPosition: "center",
     textColor: "#ffffff",
-    image: null,
+    image: ""
   });
+
+  // FETCH COLLECTIONS FROM DB
+  useEffect(() => {
+
+    fetch("http://localhost:5000/collections")
+      .then(res => res.json())
+      .then(data => setCollections(data))
+      .catch(err => console.log(err));
+
+  }, []);
 
   // Handle inputs
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  // Image upload
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setFormData({ ...formData, image: reader.result });
-    };
-    reader.readAsDataURL(file);
-  };
-
-  // Add collection
-  const handleAdd = () => {
-    if (!formData.title || !formData.image) return;
-
-    setCollections([...collections, { ...formData, id: Date.now() }]);
 
     setFormData({
-      title: "",
-      textPosition: "center",
-      textColor: "#ffffff",
-      image: null,
+      ...formData,
+      [e.target.name]: e.target.value
     });
 
-    setShowForm(false);
   };
 
-  // Delete
+  // IMAGE PATH SAVE (NO BASE64)
+  const handleImageUpload = (e) => {
+
+    const file = e.target.files[0];
+
+    if (file) {
+
+      setFormData({
+        ...formData,
+        image: `/images/${file.name}`
+      });
+
+    }
+
+  };
+
+  // ADD COLLECTION
+  const handleAdd = () => {
+
+    if (!formData.title || !formData.image) return;
+
+    const newCollection = {
+      ...formData,
+      id: Date.now().toString()
+    };
+
+    fetch("http://localhost:5000/collections", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(newCollection)
+    })
+      .then(res => res.json())
+      .then(data => {
+
+        setCollections([...collections, data]);
+
+        setFormData({
+          title: "",
+          textPosition: "center",
+          textColor: "#ffffff",
+          image: ""
+        });
+
+        setShowForm(false);
+
+      })
+      .catch(err => console.log(err));
+
+  };
+
+  // DELETE COLLECTION
   const handleDelete = (id) => {
-    setCollections(collections.filter((item) => item.id !== id));
+
+    fetch(`http://localhost:5000/collections/${id}`, {
+      method: "DELETE"
+    })
+      .then(() => {
+
+        setCollections(collections.filter((item) => item.id !== id));
+
+      })
+      .catch(err => console.log(err));
+
   };
 
   return (
     <div style={{ display: "flex" }}>
+
       <Sidebar />
 
       <div className="admin-collections-container">
+
         <h1>Collections Management</h1>
         <p>Manage "Our Collection" section on homepage</p>
 
-        {/* ADD NEW BUTTON */}
         {!showForm && (
           <button
             className="admin-add-new-btn"
@@ -69,7 +120,6 @@ function Collections() {
           </button>
         )}
 
-        {/* FORM */}
         {showForm && (
           <div className="admin-collection-form">
 
@@ -115,16 +165,20 @@ function Collections() {
               onChange={handleImageUpload}
             />
 
-            <button className="admin-add-btn" onClick={handleAdd}>
+            <button
+              className="admin-add-btn"
+              onClick={handleAdd}
+            >
               ADD COLLECTION
             </button>
 
           </div>
         )}
 
-        {/* COLLECTION LIST */}
         <div className="admin-collections-list">
+
           {collections.map((item) => (
+
             <div key={item.id} className="admin-collection-card">
 
               <img src={item.image} alt="" />
@@ -137,6 +191,7 @@ function Collections() {
               </div>
 
               <div className="admin-collection-info">
+
                 <p>
                   Link: /shop?category={item.title.toLowerCase()}
                 </p>
@@ -147,13 +202,17 @@ function Collections() {
                 >
                   Delete
                 </button>
+
               </div>
 
             </div>
+
           ))}
+
         </div>
 
       </div>
+
     </div>
   );
 }

@@ -15,8 +15,10 @@ function Checkout() {
   });
 
   useEffect(() => {
+
     const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
     setCart(storedCart);
+
   }, []);
 
   const totalPrice = cart.reduce(
@@ -25,24 +27,61 @@ function Checkout() {
   );
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value
+    });
+
   };
 
-  const handlePlaceOrder = () => {
+  const handlePlaceOrder = async () => {
 
     if (!form.name || !form.phone || !form.address) {
       alert("Please fill all required fields");
       return;
     }
 
-    if (paymentMethod === "cod") {
-      alert("Order placed with Cash on Delivery");
-    } else {
-      alert("Redirecting to Razorpay payment...");
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    const orderData = {
+      userEmail: user?.email || "guest",
+      items: cart,
+      shipping: form,
+      paymentMethod: paymentMethod,
+      total: totalPrice,
+      status: paymentMethod === "cod" ? "Pending (COD)" : "Paid",
+      createdAt: new Date().toISOString()
+    };
+
+    try {
+
+      await fetch("http://localhost:5000/orders", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(orderData)
+      });
+
+      if (paymentMethod === "cod") {
+        alert("Order placed with Cash on Delivery");
+      } else {
+        alert("Redirecting to Razorpay payment...");
+      }
+
+      localStorage.removeItem("cart");
+
+      window.dispatchEvent(new Event("cartUpdated"));
+
+      window.location.reload();
+
+    } catch (error) {
+
+      console.error("Order Error:", error);
+
     }
 
-    localStorage.removeItem("cart");
-    window.location.reload();
   };
 
   return (
@@ -51,8 +90,6 @@ function Checkout() {
       <h1>CHECKOUT</h1>
 
       <div className="checkout-container">
-
-        {/* LEFT SIDE */}
 
         <div className="checkout-form">
 
@@ -101,8 +138,6 @@ function Checkout() {
 
           </div>
 
-          {/* PAYMENT METHOD */}
-
           <h3 className="payment-title">Payment Method</h3>
 
           <div className="payment-method">
@@ -134,8 +169,6 @@ function Checkout() {
           </button>
 
         </div>
-
-        {/* RIGHT SIDE */}
 
         <div className="order-summary">
 

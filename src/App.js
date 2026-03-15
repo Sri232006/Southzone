@@ -27,6 +27,9 @@ import HeroSlider from "./admin/Pages/HeroSlider";
 import Collections from "./admin/Pages/Collections";
 import SalesOrders from "./admin/Pages/SalesOrders";
 
+/* USERS PAGE */
+import Users from "./admin/Pages/Users";
+
 import ProtectedRoute from "./components/ProtectedRoute";
 import GuestRoute from "./components/GuestRoute";
 
@@ -156,6 +159,16 @@ function App() {
             element={
               <AdminRoute>
                 <SalesOrders />
+              </AdminRoute>
+            }
+          />
+
+          {/* USERS ROUTE */}
+          <Route
+            path="/admin/users"
+            element={
+              <AdminRoute>
+                <Users />
               </AdminRoute>
             }
           />

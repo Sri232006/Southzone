@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ProfileAvatar from "../components/ProfileAvatar";
 import "../styles/UserProfile.css";
 
 function UserProfile() {
+
+  const [userId, setUserId] = useState(null);
 
   const [user, setUser] = useState({
     name: "",
@@ -23,6 +25,54 @@ function UserProfile() {
     }
   ]);
 
+  // Fetch logged-in user data
+  useEffect(() => {
+
+    const loggedUser = JSON.parse(localStorage.getItem("user"));
+
+    if (!loggedUser) return;
+
+    const fetchUser = async () => {
+
+      try {
+
+        const res = await fetch("http://localhost:5000/users");
+        const users = await res.json();
+
+        const foundUser = users.find(
+          (u) => u.email === loggedUser.email
+        );
+
+        if (foundUser) {
+
+          setUserId(foundUser.id);
+
+          setUser({
+            name: foundUser.name || "",
+            email: foundUser.email || "",
+            phone: foundUser.phone || "",
+            gender: foundUser.gender || "",
+            dob: foundUser.dob || "",
+            bio: foundUser.bio || "",
+          });
+
+          if (foundUser.addresses) {
+            setAddresses(foundUser.addresses);
+          }
+
+        }
+
+      } catch (error) {
+        console.error(error);
+      }
+
+    };
+
+    fetchUser();
+
+  }, []);
+
+
   const handleChange = (e) => {
     setUser({
       ...user,
@@ -31,12 +81,15 @@ function UserProfile() {
   };
 
   const handleAddressChange = (index, e) => {
+
     const newAddresses = [...addresses];
     newAddresses[index][e.target.name] = e.target.value;
     setAddresses(newAddresses);
+
   };
 
   const addAddress = () => {
+
     setAddresses([
       ...addresses,
       {
@@ -47,18 +100,32 @@ function UserProfile() {
         pincode: ""
       }
     ]);
+
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
 
     const profileData = {
       ...user,
       addresses
     };
 
-    console.log("Saved Profile:", profileData);
+    try {
 
-    alert("Profile saved successfully!");
+      await fetch(`http://localhost:5000/users/${userId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(profileData)
+      });
+
+      alert("Profile saved successfully!");
+
+    } catch (error) {
+      console.error(error);
+    }
+
   };
 
   return (

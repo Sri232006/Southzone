@@ -1,6 +1,6 @@
 /* ================= HERO ================= */
 
-.hero {
+.sz-hero {
   position: relative;
   height: 85vh;
   width: 100%;
@@ -13,7 +13,7 @@
 }
 
 /* Blurred side background */
-.hero-bg {
+.sz-hero-bg {
   position: absolute;
   inset: 0;
   background-size: cover;
@@ -24,7 +24,7 @@
 }
 
 /* Center content */
-.hero-content {
+.sz-hero-content {
   position: relative;
   z-index: 2;
   text-align: center;
@@ -33,18 +33,20 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  min-height: 100%;
 }
 
 /* Main portrait image */
-.hero-main-image {
+.sz-hero-main-image {
   max-height: 60vh;
   max-width: 360px;
   object-fit: contain;
-  transform: translateY(30px);
+  margin-bottom: 20px;
 }
 
 /* Title */
-.hero-content h1 {
+.sz-hero-content h1 {
   font-size: 52px;
   letter-spacing: 6px;
   margin-bottom: 20px;
@@ -52,7 +54,7 @@
 }
 
 /* Button */
-.hero-btn {
+.sz-hero-btn {
   padding: 14px 40px;
   background: white;
   color: black;
@@ -63,19 +65,19 @@
   transition: 0.3s;
 }
 
-.hero-btn:hover {
+.sz-hero-btn:hover {
   background: #e6e6e6;
 }
 
-/* Dots right below the Shop Now button */
-.hero-dots {
+/* Dots */
+.sz-hero-dots {
   display: flex;
-  gap: 8px;              /* space between dots */
-  margin: 12px 0 0;      /* closer to the button */
+  gap: 8px;
+  margin: 12px 0 0;
   justify-content: center;
 }
 
-.dot {
+.sz-dot {
   width: 8px;
   height: 8px;
   background: rgba(255, 255, 255, 0.5);
@@ -83,42 +85,47 @@
   transition: 0.3s;
 }
 
-.dot.active {
+.sz-dot.active {
   background: white;
   transform: scale(1.2);
 }
 
 /* Mobile adjustment */
 @media (max-width: 768px) {
-  .hero-dots {
-    margin-top: 8px;      /* even closer on mobile */
+
+  .sz-hero-dots {
+    margin-top: 8px;
   }
 
-  .dot {
+  .sz-dot {
     width: 6px;
     height: 6px;
   }
 
-  .dot.active {
+  .sz-dot.active {
     transform: scale(1.1);
   }
+
 }
 
 /* Mobile */
 @media (max-width: 768px) {
-  .hero {
+
+  .sz-hero {
     height: 75vh;
   }
 
-  .hero-main-image {
+  .sz-hero-main-image {
     max-height: 50vh;
     max-width: 280px;
+    margin-bottom: 15px;
   }
 
-  .hero-content h1 {
+  .sz-hero-content h1 {
     font-size: 30px;
     letter-spacing: 3px;
   }
+
 }
 /* ===== OFFERS SECTION ===== */
 .offers-section {
@@ -130,7 +137,8 @@
   font-family: "Bebas Neue", sans-serif;
   font-weight: 700;
   color: white;
-  letter-spacing: 3px;
+  letter-spacing: 3px;  
+  font-size: 34px;  
 }
 
 /* Cards layout */
@@ -210,6 +218,12 @@
 .collection-section {
   padding: 70px 8%;
   background: black;
+}
+
+.collection-section .section-title {
+  font-size: 34px;  
+  letter-spacing: 2px;  
+  margin-bottom: 40px;  
 }
 
 .collection-grid {

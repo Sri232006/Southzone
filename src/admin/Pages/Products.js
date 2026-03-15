@@ -1,11 +1,10 @@
-import React, { useState, useContext, useEffect } from "react";
-import { ProductContext } from "../context/ProductContext";
+import React, { useState, useEffect } from "react";
 import Sidebar from "../components/Sidebar";
 import "../styles/Products.css";
 
 function Products() {
-  const { products, addProduct } = useContext(ProductContext);
 
+  const [products, setProducts] = useState([]);
   const [showForm, setShowForm] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -22,6 +21,21 @@ function Products() {
   });
 
   useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/products");
+      const data = await res.json();
+      setProducts(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+
     const price = Number(formData.originalPrice);
     const discount = Number(formData.discount);
 
@@ -29,6 +43,7 @@ function Products() {
       const final = price - (price * discount) / 100;
       setFormData((prev) => ({ ...prev, finalPrice: final.toFixed(0) }));
     }
+
   }, [formData.originalPrice, formData.discount]);
 
   const handleChange = (e) => {
@@ -36,6 +51,7 @@ function Products() {
   };
 
   const handleSizeChange = (size) => {
+
     if (formData.sizes.includes(size)) {
       setFormData({
         ...formData,
@@ -47,9 +63,11 @@ function Products() {
         sizes: [...formData.sizes, size],
       });
     }
+
   };
 
   const handleImageUpload = (e) => {
+
     const file = e.target.files[0];
     const reader = new FileReader();
 
@@ -58,54 +76,94 @@ function Products() {
     };
 
     if (file) reader.readAsDataURL(file);
+
   };
 
-  const handleSubmit = (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
 
-  const newProduct = {
-    id: formData.id || Date.now(),
-    name: formData.name,
-    price: Number(formData.finalPrice),
-    category: formData.category,
-    image: formData.image,
-    stock: Number(formData.stock),
-  };
+    e.preventDefault();
 
-  fetch("http://localhost:5000/products", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(newProduct),
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      addProduct(data);
+    const newProduct = {
+      id: formData.id || Date.now().toString(),
+      name: formData.name,
+      price: Number(formData.finalPrice),
+      category: formData.category,
+      image: formData.image,
+      stock: Number(formData.stock),
+    };
+
+    try {
+
+      const res = await fetch("http://localhost:5000/products", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(newProduct)
+      });
+
+      const data = await res.json();
+
+      setProducts([...products, data]);
+
       setShowForm(false);
+
       alert("Product added successfully");
-    })
-    .catch((err) => console.log(err));
-};
+
+    } catch (err) {
+
+      console.error(err);
+
+    }
+
+  };
+
+  const handleDelete = async (id) => {
+
+    if (!window.confirm("Delete this product?")) return;
+
+    try {
+
+      await fetch(`http://localhost:5000/products/${id}`, {
+        method: "DELETE"
+      });
+
+      setProducts(products.filter((item) => item.id !== id));
+
+    } catch (err) {
+
+      console.error(err);
+
+    }
+
+  };
+
   return (
     <div className="admin-container">
+
       <Sidebar />
 
       <div className="products-container">
+
         {!showForm ? (
           <>
             <div className="products-header">
+
               <h2>All Products</h2>
+
               <button
                 className="add-btn"
                 onClick={() => setShowForm(true)}
               >
                 + Add New Product
               </button>
+
             </div>
 
             <div className="table-card">
+
               <table>
+
                 <thead>
                   <tr>
                     <th>Image</th>
@@ -118,8 +176,11 @@ function Products() {
                 </thead>
 
                 <tbody>
-                  {products.map((item, index) => (
-                    <tr key={index}>
+
+                  {products.map((item) => (
+
+                    <tr key={item.id}>
+
                       <td>
                         <img
                           src={item.image}
@@ -127,19 +188,38 @@ function Products() {
                           className="table-img"
                         />
                       </td>
+
                       <td>{item.name}</td>
+
                       <td>{item.category}</td>
+
                       <td>₹{item.price}</td>
+
                       <td>{item.stock}</td>
+
                       <td>
+
                         <button className="edit-btn">✏</button>
-                        <button className="delete-btn">🗑</button>
+
+                        <button
+                          className="delete-btn"
+                          onClick={() => handleDelete(item.id)}
+                        >
+                          🗑
+                        </button>
+
                       </td>
+
                     </tr>
+
                   ))}
+
                 </tbody>
+
               </table>
+
             </div>
+
           </>
         ) : (
           <>
@@ -148,10 +228,13 @@ function Products() {
             </div>
 
             <div className="add-product-card">
+
               <h2>Add New Product</h2>
 
               <form onSubmit={handleSubmit}>
+
                 <label>Product ID (Optional)</label>
+
                 <input
                   type="text"
                   name="id"
@@ -160,6 +243,7 @@ function Products() {
                 />
 
                 <label>Product Name</label>
+
                 <input
                   type="text"
                   name="name"
@@ -168,8 +252,10 @@ function Products() {
                 />
 
                 <div className="row">
+
                   <div>
                     <label>Original Price</label>
+
                     <input
                       type="number"
                       name="originalPrice"
@@ -179,6 +265,7 @@ function Products() {
 
                   <div>
                     <label>Discount %</label>
+
                     <input
                       type="number"
                       name="discount"
@@ -189,15 +276,18 @@ function Products() {
 
                   <div>
                     <label>Final Price (Calculated)</label>
+
                     <input
                       type="text"
                       value={formData.finalPrice}
                       readOnly
                     />
                   </div>
+
                 </div>
 
                 <label>Category</label>
+
                 <select
                   name="category"
                   onChange={handleChange}
@@ -211,6 +301,7 @@ function Products() {
                 </select>
 
                 <label>Description</label>
+
                 <textarea
                   name="description"
                   rows="4"
@@ -218,6 +309,7 @@ function Products() {
                 ></textarea>
 
                 <label>Product Image</label>
+
                 <input
                   type="file"
                   accept="image/*"
@@ -225,21 +317,30 @@ function Products() {
                 />
 
                 <label>Available Sizes</label>
+
                 <div className="sizes">
+
                   {["S", "M", "L", "XL", "XXL", "30", "32", "34", "36"].map(
                     (size) => (
+
                       <label key={size}>
+
                         <input
                           type="checkbox"
                           onChange={() => handleSizeChange(size)}
                         />
+
                         {size}
+
                       </label>
+
                     )
                   )}
+
                 </div>
 
                 <label>Stock Quantity</label>
+
                 <input
                   type="number"
                   name="stock"
@@ -249,11 +350,15 @@ function Products() {
                 <button type="submit" className="create-btn">
                   CREATE PRODUCT
                 </button>
+
               </form>
+
             </div>
           </>
         )}
+
       </div>
+
     </div>
   );
 }

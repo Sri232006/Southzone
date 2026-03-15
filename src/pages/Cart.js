@@ -1,23 +1,42 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";   
+import { useNavigate } from "react-router-dom";
 import "../styles/Cart.css";
 
 function Cart() {
-  const navigate = useNavigate();   
+  const navigate = useNavigate();
   const [cart, setCart] = useState([]);
 
   useEffect(() => {
+
     const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
     setCart(storedCart);
+
+    const handleCartUpdate = () => {
+      const updatedCart = JSON.parse(localStorage.getItem("cart")) || [];
+      setCart(updatedCart);
+    };
+
+    window.addEventListener("cartUpdated", handleCartUpdate);
+
+    return () => {
+      window.removeEventListener("cartUpdated", handleCartUpdate);
+    };
+
   }, []);
 
   const updateCart = (updatedCart) => {
+
     setCart(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
+
+    window.dispatchEvent(new Event("cartUpdated"));
+
   };
 
   const handleQuantityChange = (index, delta) => {
+
     const updatedCart = [...cart];
+
     updatedCart[index].quantity += delta;
 
     if (updatedCart[index].quantity < 1) {
@@ -25,12 +44,16 @@ function Cart() {
     }
 
     updateCart(updatedCart);
+
   };
 
   const handleRemove = (index) => {
+
     const updatedCart = [...cart];
     updatedCart.splice(index, 1);
+
     updateCart(updatedCart);
+
   };
 
   const subtotal = cart.reduce(
@@ -46,45 +69,62 @@ function Cart() {
 
   return (
     <div className="cart-container">
+
       <div className="cart-left">
+
         <h1>Shopping Bag ({cart.length})</h1>
 
         {cart.map((item, index) => (
+
           <div className="cart-item" key={index}>
+
             <img src={item.image} alt={item.name} />
 
             <div className="cart-details">
+
               <div className="cart-top">
+
                 <h3>{item.name}</h3>
+
                 <span
                   className="remove"
                   onClick={() => handleRemove(index)}
                 >
                   ✕
                 </span>
+
               </div>
 
               <p>Size: {item.size}</p>
 
               <div className="quantity">
+
                 <button onClick={() => handleQuantityChange(index, -1)}>
                   –
                 </button>
+
                 <span>{item.quantity}</span>
+
                 <button onClick={() => handleQuantityChange(index, 1)}>
                   +
                 </button>
+
               </div>
+
             </div>
 
             <div className="cart-price">
               ₹{item.price * item.quantity}
             </div>
+
           </div>
+
         ))}
+
       </div>
 
       <div className="cart-right">
+
         <h2>Order Summary</h2>
 
         <div className="summary-row">
@@ -104,11 +144,13 @@ function Cart() {
 
         <button
           className="checkout-btn"
-          onClick={() => navigate("/checkout")}   
+          onClick={() => navigate("/checkout")}
         >
           PROCEED TO CHECKOUT →
         </button>
+
       </div>
+
     </div>
   );
 }

@@ -2,57 +2,75 @@ import React, { useEffect, useState } from "react";
 import "../styles/Home.css";
 
 function Hero() {
-  const slides = [
-    { image: "/images/hero1.jpg", title: "REDEFINE FASHION" },
-    { image: "/images/hero2.jpg", title: "MODERN STREETWEAR" },
-    { image: "/images/hero3.jpg", title: "TRENDING NOW" },
-    { image: "/images/hero4.jpg", title: "URBAN CLASSICS" },
-    { image: "/images/hero5.jpg", title: "SOUTHZONE STYLE" },
-    { image: "/images/hero6.jpg", title: "ELEVATE YOUR LOOK" },
-  ];
 
+  const [slides, setSlides] = useState([]);
   const [current, setCurrent] = useState(0);
   const [fade, setFade] = useState(true);
 
   useEffect(() => {
+
+    fetch("http://localhost:5000/heroslides")
+      .then((res) => res.json())
+      .then((data) => setSlides(data))
+      .catch((err) => console.log(err));
+
+  }, []);
+
+  useEffect(() => {
+
+    if (slides.length === 0) return;
+
     const interval = setInterval(() => {
+
       setFade(false);
+
       setTimeout(() => {
+
         setCurrent((prev) => (prev + 1) % slides.length);
+
         setFade(true);
+
       }, 300);
+
     }, 3500);
 
     return () => clearInterval(interval);
-  }, [slides.length]);
+
+  }, [slides]);
+
+  if (slides.length === 0) return null;
 
   return (
-    <div className="hero">
+    <div className="sz-hero">
 
       <div
-        className="hero-bg"
+        className="sz-hero-bg"
         style={{ backgroundImage: `url(${slides[current].image})` }}
       ></div>
 
-      <div className={`hero-content ${fade ? "fade-in" : "fade-out"}`}>
+      <div className={`sz-hero-content ${fade ? "fade-in" : "fade-out"}`}>
+
         <img
           src={slides[current].image}
           alt="Hero"
-          className="hero-main-image"
+          className="sz-hero-main-image"
         />
 
         <h1>{slides[current].title}</h1>
-        <button className="hero-btn">SHOP NOW</button>
 
-        <div className="hero-dots">
+        <button className="sz-hero-btn">SHOP NOW</button>
+
+        <div className="sz-hero-dots">
           {slides.map((_, i) => (
             <span
               key={i}
-              className={`dot ${i === current ? "active" : ""}`}
+              className={`sz-dot ${i === current ? "active" : ""}`}
             ></span>
           ))}
         </div>
+
       </div>
+
     </div>
   );
 }

@@ -41,7 +41,7 @@ function Login() {
     }
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
     if (!email.trim() || !password.trim()) {
@@ -49,26 +49,37 @@ function Login() {
       return;
     }
 
-    if (email === "admin@gmail.com" && password === "1234") {
-      localStorage.setItem("authToken", "admin-auth-token");
+    try {
+
+      const res = await fetch("http://localhost:5000/users");
+      const users = await res.json();
+
+      const user = users.find(
+        (u) => u.email === email && u.password === password
+      );
+
+      if (!user) {
+        alert("Invalid email or password");
+        return;
+      }
+
+      localStorage.setItem("authToken", "user-auth-token");
       localStorage.setItem(
         "user",
-        JSON.stringify({ email, role: "admin" })
+        JSON.stringify({ email: user.email, role: user.role })
       );
 
       executePendingAction();
-      navigate("/admin");
-      return;
+
+      if (user.role === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
+
+    } catch (error) {
+      console.error(error);
     }
-
-    localStorage.setItem("authToken", "user-auth-token");
-    localStorage.setItem(
-      "user",
-      JSON.stringify({ email, role: "user" })
-    );
-
-    executePendingAction();
-    navigate("/");
   };
 
   const handleGoogleLogin = () => {

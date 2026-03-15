@@ -5,91 +5,145 @@ import "../styles/HeroSlider.css";
 import { FaEdit, FaTrash, FaSave } from "react-icons/fa";
 
 function HeroSlider() {
+
   const [slides, setSlides] = useState([]);
-  const [newImage, setNewImage] = useState(null);
   const [caption, setCaption] = useState("");
+  const [newImage, setNewImage] = useState("");
   const [editingIndex, setEditingIndex] = useState(null);
 
-  
   useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem("heroSlides"));
-    if (saved) setSlides(saved);
+
+    fetch("http://localhost:5000/heroslides")
+      .then(res => res.json())
+      .then(data => setSlides(data))
+      .catch(err => console.log(err));
+
   }, []);
 
-  
   const handleUpload = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
 
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setNewImage(reader.result);
-    };
-    reader.readAsDataURL(file);
+    const file = e.target.files[0];
+
+    if (file) {
+
+      setNewImage(`/images/${file.name}`);
+
+    }
+
   };
 
-  
   const addToList = () => {
+
     if (!newImage) return;
 
     const newSlide = {
       image: newImage,
-      text: caption || "New Slide",
+      title: caption || "New Slide"
     };
 
-    setSlides([...slides, newSlide]);
-    setNewImage(null);
-    setCaption("");
+    fetch("http://localhost:5000/heroslides", {
+
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json"
+      },
+
+      body: JSON.stringify(newSlide)
+
+    })
+      .then(res => res.json())
+      .then(data => {
+
+        setSlides([...slides, data]);
+
+        setCaption("");
+        setNewImage("");
+
+      });
+
   };
 
-  
-  const removeImage = (index) => {
-    const updated = slides.filter((_, i) => i !== index);
-    setSlides(updated);
+  const removeImage = (id) => {
+
+    fetch(`http://localhost:5000/heroslides/${id}`, {
+      method: "DELETE"
+    })
+      .then(() => {
+
+        setSlides(slides.filter((slide) => slide.id !== id));
+
+      });
+
   };
 
-  
   const startEdit = (index) => {
+
     setEditingIndex(index);
-    setCaption(slides[index].text);
+
+    setCaption(slides[index].title);
+
   };
 
-  
   const saveEdit = (index) => {
-    const updated = [...slides];
-    updated[index].text = caption;
-    setSlides(updated);
-    setEditingIndex(null);
-    setCaption("");
-  };
 
-  
-  const savePreset = () => {
-    localStorage.setItem("heroSlides", JSON.stringify(slides));
-    alert("Preset Saved Successfully!");
+    const slide = slides[index];
+
+    const updatedSlide = {
+      ...slide,
+      title: caption
+    };
+
+    fetch(`http://localhost:5000/heroslides/${slide.id}`, {
+
+      method: "PUT",
+
+      headers: {
+        "Content-Type": "application/json"
+      },
+
+      body: JSON.stringify(updatedSlide)
+
+    })
+      .then(res => res.json())
+      .then(data => {
+
+        const updated = [...slides];
+
+        updated[index] = data;
+
+        setSlides(updated);
+
+        setEditingIndex(null);
+
+        setCaption("");
+
+      });
+
   };
 
   return (
+
     <div className="admin-layout">
+
       <Sidebar />
 
       <div className="admin-main">
+
         <div className="admin-hero-container">
 
-          {/* HEADER */}
           <div className="admin-hero-header">
+
             <h2>Hero Slider Management</h2>
 
-            <button className="admin-save-btn" onClick={savePreset}>
-              💾 SAVE PRESET
-            </button>
           </div>
 
-          {/* UPLOAD BOX */}
           <div className="admin-upload-box">
+
             <label>Add New Image</label>
 
             <div className="admin-upload-row">
+
               <input type="file" onChange={handleUpload} />
 
               <input
@@ -102,18 +156,19 @@ function HeroSlider() {
               <button onClick={addToList}>
                 + ADD TO LIST
               </button>
+
             </div>
+
           </div>
 
-          {/* IMAGE LIST */}
           {slides.map((slide, index) => (
-            <div key={index} className="admin-image-card">
+
+            <div key={slide.id} className="admin-image-card">
 
               <img src={slide.image} alt="hero" />
 
               <div className="admin-image-actions">
 
-                {/* Caption / Edit Mode */}
                 {editingIndex === index ? (
                   <>
                     <input
@@ -127,17 +182,15 @@ function HeroSlider() {
                   </>
                 ) : (
                   <>
-                    <span>{slide.text}</span>
+                    <span>{slide.title}</span>
 
                     <div className="action-buttons">
 
-                      {/* Edit */}
                       <button onClick={() => startEdit(index)}>
                         <FaEdit />
                       </button>
 
-                      {/* Remove */}
-                      <button onClick={() => removeImage(index)}>
+                      <button onClick={() => removeImage(slide.id)}>
                         <FaTrash />
                       </button>
 
@@ -146,11 +199,15 @@ function HeroSlider() {
                 )}
 
               </div>
+
             </div>
+
           ))}
 
         </div>
+
       </div>
+
     </div>
   );
 }

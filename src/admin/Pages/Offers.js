@@ -1,74 +1,106 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Sidebar from "../components/Sidebar";
 import "../styles/Offers.css";
 
 function Offers() {
-  const [showForm, setShowForm] = useState(false);
 
-  const [offers, setOffers] = useState([
-    {
-      title: "Pongal Sale..!",
-      desc: "(7th Jan - 17th Jan)",
-      discount: 34,
-      image: "https://via.placeholder.com/500x250"
-    },
-    {
-      title: "Summer Sale",
-      desc: "(3rd Mar - 25th May)",
-      discount: 31,
-      image: "https://via.placeholder.com/500x250"
-    }
-  ]);
+  const [showForm, setShowForm] = useState(false);
+  const [offers, setOffers] = useState([]);
 
   const [formData, setFormData] = useState({
     title: "",
     desc: "",
     discount: "",
-    image: null
+    image: ""
   });
 
+  useEffect(() => {
+
+    fetch("http://localhost:5000/offers")
+      .then(res => res.json())
+      .then(data => setOffers(data))
+      .catch(err => console.log(err));
+
+  }, []);
+
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+
   };
 
   const handleImage = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
 
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setFormData({ ...formData, image: reader.result });
-    };
-    reader.readAsDataURL(file);
+    const file = e.target.files[0];
+
+    if (file) {
+
+      setFormData({
+        ...formData,
+        image: `/images/${file.name}`
+      });
+
+    }
+
   };
 
   const createOffer = () => {
+
     if (!formData.title || !formData.discount) return;
 
     const newOffer = {
       ...formData,
-      image:
-        formData.image ||
-        "https://via.placeholder.com/500x250?text=No+Image"
+      id: Date.now().toString()
     };
 
-    setOffers([...offers, newOffer]);
+    fetch("http://localhost:5000/offers", {
 
-    setFormData({
-      title: "",
-      desc: "",
-      discount: "",
-      image: null
-    });
+      method: "POST",
 
-    setShowForm(false);
+      headers: {
+        "Content-Type": "application/json"
+      },
+
+      body: JSON.stringify(newOffer)
+
+    })
+      .then(res => res.json())
+      .then(data => {
+
+        setOffers([...offers, data]);
+
+        setFormData({
+          title: "",
+          desc: "",
+          discount: "",
+          image: ""
+        });
+
+        setShowForm(false);
+
+      });
+
   };
 
-  const deleteOffer = (index) => {
-    setOffers(offers.filter((_, i) => i !== index));
+  const deleteOffer = (id) => {
+
+    fetch(`http://localhost:5000/offers/${id}`, {
+
+      method: "DELETE"
+
+    }).then(() => {
+
+      setOffers(offers.filter(o => o.id !== id));
+
+    });
+
   };
 
   return (
+
     <div className="admin-offers-layout">
 
       <Sidebar />
@@ -86,11 +118,13 @@ function Offers() {
         </button>
 
         {showForm && (
+
           <div className="admin-offer-form">
 
             <h3>Create New Offer</h3>
 
             <div className="admin-offer-row">
+
               <input
                 name="title"
                 placeholder="Offer Title"
@@ -105,6 +139,7 @@ function Offers() {
                 value={formData.discount}
                 onChange={handleChange}
               />
+
             </div>
 
             <textarea
@@ -114,14 +149,20 @@ function Offers() {
               onChange={handleChange}
             />
 
-            <input type="file" accept="image/*" onChange={handleImage} />
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImage}
+            />
 
             {formData.image && (
+
               <img
                 src={formData.image}
                 alt="preview"
                 className="admin-offer-preview"
               />
+
             )}
 
             <button
@@ -132,12 +173,14 @@ function Offers() {
             </button>
 
           </div>
+
         )}
 
-        {/* OFFERS GRID */}
         <div className="admin-offers-grid">
-          {offers.map((offer, index) => (
-            <div className="admin-offer-card" key={index}>
+
+          {offers.map((offer) => (
+
+            <div className="admin-offer-card" key={offer.id}>
 
               <img src={offer.image} alt={offer.title} />
 
@@ -152,7 +195,7 @@ function Offers() {
 
                 <button
                   className="admin-delete-offer-btn"
-                  onClick={() => deleteOffer(index)}
+                  onClick={() => deleteOffer(offer.id)}
                 >
                   🗑 Delete Offer
                 </button>
@@ -160,11 +203,15 @@ function Offers() {
               </div>
 
             </div>
+
           ))}
+
         </div>
 
       </div>
+
     </div>
+
   );
 }
 

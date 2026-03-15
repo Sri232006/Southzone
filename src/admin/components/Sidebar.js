@@ -7,7 +7,8 @@ import {
   Image,
   Layers,
   ShoppingCart,
-  Settings
+  Settings,
+  Users
 } from "lucide-react";
 
 function Sidebar() {
@@ -39,9 +40,13 @@ function Sidebar() {
           <Layers size={18}/> Collections
         </li>
 
-        {/* ✅ SALES & ORDERS ROUTE */}
         <li onClick={() => navigate("/admin/sales-orders")}>
           <ShoppingCart size={18}/> Sales & Orders
+        </li>
+
+        {/* USERS MENU */}
+        <li onClick={() => navigate("/admin/users")}>
+          <Users size={18}/> Users
         </li>
 
         <li onClick={() => navigate("/admin/settings")}>

@@ -14,13 +14,25 @@ function ProductDetails() {
   useEffect(() => {
 
     fetch(`http://localhost:5000/products/${id}`)
-      .then(res => res.json())
-      .then(data => setProduct(data))
-      .catch(err => console.log(err));
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Product not found");
+        }
+        return res.json();
+      })
+      .then((data) => setProduct(data))
+      .catch((err) => {
+        console.error("API Error:", err);
+      });
 
   }, [id]);
 
-  if (!product) return <div className="product-details-container">Loading...</div>;
+  if (!product)
+    return (
+      <div className="product-details-container">
+        Loading...
+      </div>
+    );
 
   const handleAddToCart = () => {
 
@@ -48,12 +60,12 @@ function ProductDetails() {
     }
 
     localStorage.setItem("cart", JSON.stringify(cart));
+
     window.dispatchEvent(new Event("cartUpdated"));
 
     alert("Added to cart!");
   };
 
-  // 🔥 BUY NOW FUNCTION
   const handleBuyNow = () => {
 
     const checkoutItem = {
@@ -86,7 +98,7 @@ function ProductDetails() {
 
           <div className="sizes">
 
-            {["S","M","L","XL"].map((s) => (
+            {["S", "M", "L", "XL"].map((s) => (
 
               <button
                 key={s}
@@ -104,11 +116,17 @@ function ProductDetails() {
 
         <div className="quantity-section">
 
-          <button onClick={() => quantity > 1 && setQuantity(quantity - 1)}>-</button>
+          <button
+            onClick={() => quantity > 1 && setQuantity(quantity - 1)}
+          >
+            -
+          </button>
 
           <span>{quantity}</span>
 
-          <button onClick={() => setQuantity(quantity + 1)}>+</button>
+          <button onClick={() => setQuantity(quantity + 1)}>
+            +
+          </button>
 
         </div>
 
@@ -116,7 +134,6 @@ function ProductDetails() {
           ADD TO CART
         </button>
 
-        {/* 🔥 BUY NOW BUTTON */}
         <button className="buy-now" onClick={handleBuyNow}>
           BUY NOW
         </button>
